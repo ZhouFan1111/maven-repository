@@ -1,9 +1,0 @@
-com\binarywang\spring\starter\wxjava\mp\properties\RedisProperties.class
-com\binarywang\spring\starter\wxjava\mp\properties\WxMpProperties$ConfigStorage.class
-com\binarywang\spring\starter\wxjava\mp\config\WxMpServiceAutoConfiguration.class
-com\binarywang\spring\starter\wxjava\mp\config\WxMpAutoConfiguration.class
-com\binarywang\spring\starter\wxjava\mp\config\WxMpStorageAutoConfiguration.class
-com\binarywang\spring\starter\wxjava\mp\properties\WxMpProperties$StorageType.class
-META-INF\spring-configuration-metadata.json
-com\binarywang\spring\starter\wxjava\mp\properties\WxMpProperties$MpConfig.class
-com\binarywang\spring\starter\wxjava\mp\properties\WxMpProperties.class
