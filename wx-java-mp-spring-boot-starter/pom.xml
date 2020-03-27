@@ -7,10 +7,11 @@
     <groupId>com.github.binarywang</groupId>
     <artifactId>wx-java</artifactId>
     <version>3.7.1.B</version>
-    <relativePath>../../</relativePath>
   </parent>
 
+  <groupId>com.github.ZhouFan1111</groupId>
   <artifactId>wx-java-mp-spring-boot-starter</artifactId>
+  <version>1.0.0</version>
   <name>WxJava - Spring Boot Starter for MP</name>
   <description>微信公众号开发的 Spring Boot Starter</description>
 
@@ -22,27 +23,23 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-autoconfigure</artifactId>
-      <version>${spring.boot.version}</version>
+      <version>2.1.7.RELEASE</version>
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-configuration-processor</artifactId>
-      <version>${spring.boot.version}</version>
+      <version>2.1.7.RELEASE</version>
       <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>com.github.binarywang</groupId>
       <artifactId>weixin-java-mp</artifactId>
-      <version>${project.version}</version>
+      <version>3.7.1.B</version>
     </dependency>
     <dependency>
       <groupId>redis.clients</groupId>
       <artifactId>jedis</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-pool2</artifactId>
-      <version>2.0</version>
+      <version>2.9.2</version>
     </dependency>
     <dependency>
       <groupId>org.projectlombok</groupId>
@@ -56,7 +53,7 @@
       <plugin>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
-        <version>${spring.boot.version}</version>
+        <version>2.1.7.RELEASE</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -73,5 +70,140 @@
       </plugin>
     </plugins>
   </build>
+
+  <distributionManagement>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
+
+
+  <profiles>
+    <profile>
+      <id>disable-javadoc-doclint</id>
+      <activation>
+        <jdk>[1.8,)</jdk>
+      </activation>
+      <!-- java8版本导致javadoc打包编译失败时候，添加-->
+      <properties>
+        <javadoc.opts>-Xdoclint:none</javadoc.opts>
+      </properties>
+    </profile>
+
+    <profile>
+      <id>release</id>
+      <build>
+        <pluginManagement>
+          <plugins>
+
+            <plugin>
+              <groupId>org.sonatype.plugins</groupId>
+              <artifactId>nexus-staging-maven-plugin</artifactId>
+              <version>1.6.3</version>
+              <extensions>true</extensions>
+              <configuration>
+                <serverId>ossrh</serverId>
+                <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                <autoReleaseAfterClose>true</autoReleaseAfterClose>
+              </configuration>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-release-plugin</artifactId>
+              <version>2.3.2</version>
+              <configuration>
+                <autoVersionSubmodules>true</autoVersionSubmodules>
+                <useReleaseProfile>false</useReleaseProfile>
+                <releaseProfiles>release</releaseProfiles>
+                <goals>deploy</goals>
+              </configuration>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>3.0</version>
+              <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+              </configuration>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-gpg-plugin</artifactId>
+              <version>1.6</version>
+              <executions>
+                <execution>
+                  <id>sign-artifacts</id>
+                  <phase>verify</phase>
+                  <goals>
+                    <goal>sign</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-source-plugin</artifactId>
+              <version>2.2.1</version>
+              <executions>
+                <execution>
+                  <id>attach-sources</id>
+                  <goals>
+                    <goal>jar-no-fork</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <version>2.10.4</version>
+              <executions>
+                <execution>
+                  <id>attach-javadocs</id>
+                  <phase>package</phase>
+                  <goals>
+                    <goal>jar</goal>
+                  </goals>
+                  <!-- java8版本导致javadoc打包编译失败时候，添加-->
+                  <configuration>
+                    <additionalparam>${javadoc.opts}</additionalparam>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+        </pluginManagement>
+      </build>
+    </profile>
+  </profiles>
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <scm>
+    <url>https://github.com/ZhouFan1111/maven-repository</url>
+    <connection>scm:git:https://github.com/ZhouFan1111/maven-repository.git</connection>
+    <developerConnection>scm:git:https://github.com/ZhouFan1111/maven-repository.git</developerConnection>
+  </scm>
+
+  <developers>
+    <developer>
+      <name>zhoufan</name>
+      <email>1035387541@qq.com</email>
+      <url>https://github.com/ZhouFan1111</url>
+    </developer>
+  </developers>
+
+
 
 </project>

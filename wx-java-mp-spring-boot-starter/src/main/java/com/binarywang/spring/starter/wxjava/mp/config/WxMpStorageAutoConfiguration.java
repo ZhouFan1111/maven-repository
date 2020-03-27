@@ -32,7 +32,7 @@ public class WxMpStorageAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean(WxMpConfigStorage.class)
   public WxMpConfigStorage wxMpInMemoryConfigStorage() {
-    log.info("========================周帆调试properties：{}",properties);
+    log.info("properties：{}",properties);
     WxMpProperties.ConfigStorage storage = properties.getConfigStorage();
     WxMpProperties.StorageType type = storage.getType();
 
